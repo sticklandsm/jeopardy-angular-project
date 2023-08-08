@@ -1,0 +1,5 @@
+<div class="jeopardy-board" [@boardAppear]="contentLoaded ? 'contentIsLoaded' : 'contentIsntLoaded'">
+  <div  *ngFor="let category of categories">
+    <app-jeopardy-category class="" [category]="category"></app-jeopardy-category>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+.category {
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  padding: 10px;
+  background-color: #060CE9;
+  border: 1px solid #000000 /* Set the background color of category and question cells */
+}
+
+.question {
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  
+  background-color: #060CE9; /* Set the background color of category and question cells */
+}
+
+.cell {
+  color: #d7a04b ;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #060CE9; /* Set the background color of question cells */
+  border: 1px solid #000000; /* Set the border color and style */
+  cursor: pointer; /* Add a pointer cursor to indicate clickable cells */
+}
+

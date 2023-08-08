@@ -1,0 +1,10 @@
+.jeopardy-board {
+  font-family: 'ITC Korinna Std', sans-serif;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  justify-content: space-between;
+  column-gap: 0%;
+   /* Adjust spacing between cells as needed */
+  background-color: #f0f0f0; /* Set the background color of the board */
+  min-width:50rem
+}

@@ -1,0 +1,14 @@
+<nav>
+  <button type="button" (click)="toggle()">Toggle Open/Close</button>
+  <nav>
+    <button type="button" (click)="toggleExist()">Toggle exist/not</button>
+  </nav>
+</nav>
+
+<div [@openClose]="isOpen ? 'open' : 'closed'" class="open-close-container">
+  <p>The box is now {{isOpen ? 'Open': 'Closed'}}!</p>
+</div>
+
+<div [@openClose]="isOpen ? 'open' : 'closed'" *ngIf="doesItExist" class="open-close-container">
+  <p>this box exists</p>
+</div>
