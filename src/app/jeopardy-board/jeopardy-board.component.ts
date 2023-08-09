@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import {
   trigger,
   state,
@@ -26,6 +20,7 @@ import { SplashScreenStateService } from '../splash-screen-state.service';
       state(
         'contentIsntLoaded',
         style({
+          //make the below 0 before deployment
           opacity: 0,
         })
       ),

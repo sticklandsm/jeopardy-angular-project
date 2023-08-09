@@ -23,5 +23,6 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     this.jeopardyGame = await this.helpers.getJeopardyGame();
+    console.log(this.jeopardyGame);
   }
 }

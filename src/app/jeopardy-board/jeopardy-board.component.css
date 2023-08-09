@@ -6,5 +6,6 @@
   column-gap: 0%;
    /* Adjust spacing between cells as needed */
   background-color: #f0f0f0; /* Set the background color of the board */
-  min-width:50rem
+  min-width:50rem;
+  z-index: -1;
 }

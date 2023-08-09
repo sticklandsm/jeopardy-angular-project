@@ -8,6 +8,8 @@ import { JeopardyCategoryComponent } from './jeopardy-category/jeopardy-category
 import { JeopardyCardComponent } from './jeopardy-card/jeopardy-card.component';
 import { SplashScreenComponent } from './splash-screen/splash-screen.component';
 import { OpenCloseComponent } from './open-close/open-close.component';
+import { Ng2FittextModule } from 'ng2-fittext';
+import { MaximizeDirective } from './maximize.directive';
 
 @NgModule({
   declarations: [
@@ -17,8 +19,14 @@ import { OpenCloseComponent } from './open-close/open-close.component';
     JeopardyCardComponent,
     SplashScreenComponent,
     OpenCloseComponent,
+    MaximizeDirective,
   ],
-  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    Ng2FittextModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

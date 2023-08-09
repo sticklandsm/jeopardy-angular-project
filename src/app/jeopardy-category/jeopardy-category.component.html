@@ -1,9 +1,9 @@
 <div class="category">
-    {{category.categoryName}}
+  <p [fittext]="true" [modelToWatch]="category.categoryName" [activateOnResize]="true" [maxFontSize]="32">{{category.categoryName}}</p>
 </div>
-<div class="question">
-  <div class="cell" *ngFor="let clue of category.clues">
+
+  <div *ngFor="let clue of category.clues" >
       <app-jeopardy-card [question]="clue"></app-jeopardy-card>
   </div>
-</div>
+
 

@@ -1,29 +1,36 @@
-.category {
-  text-align: center;
-  font-weight: bold;
-  color: white;
-  padding: 10px;
-  background-color: #060CE9;
-  border: 1px solid #000000 /* Set the background color of category and question cells */
+@font-face {
+  font-family: 'CatergoriesFont'; /* The name you'll use to reference the font */
+  src: url('../../assets/fonts/Swiss911CompressedRegular.otf') format('opentype'); /* Path to your OTF file */
+  /* Additional font properties (e.g., font-weight, font-style) can be added here */
 }
+
+
+
+.category {
+  letter-spacing: 0.4px;
+  text-shadow: 0.6px 0.6px 0.6px #000;
+  font-family: 'CatergoriesFont', sans-serif;
+  line-height: 0.95; 
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 1.9rem; /* 20px */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #010a78;
+  border: 1px solid #000000; /* Set the background color of category and question cells */
+  height: 5rem;
+}
+
+
+
 
 .question {
   text-align: center;
-  font-weight: bold;
   color: white;
-  
-  background-color: #060CE9; /* Set the background color of category and question cells */
+  background-color: #010a78; /* Set the background color of category and question cells */
 }
 
-.cell {
-  color: #d7a04b ;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  background-color: #060CE9; /* Set the background color of question cells */
-  border: 1px solid #000000; /* Set the border color and style */
-  cursor: pointer; /* Add a pointer cursor to indicate clickable cells */
-}
+
 
