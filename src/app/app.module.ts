@@ -10,6 +10,8 @@ import { SplashScreenComponent } from './splash-screen/splash-screen.component';
 import { OpenCloseComponent } from './open-close/open-close.component';
 import { Ng2FittextModule } from 'ng2-fittext';
 import { MaximizeDirective } from './maximize.directive';
+import { HomeComponent } from './home/home.component';
+import { GameComponent } from './game/game.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { MaximizeDirective } from './maximize.directive';
     SplashScreenComponent,
     OpenCloseComponent,
     MaximizeDirective,
+    HomeComponent,
+    GameComponent,
   ],
   imports: [
     BrowserModule,

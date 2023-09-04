@@ -12,6 +12,8 @@ export class JeopardyCardComponent implements OnChanges {
   constructor() {}
 
   isQuestionVisible: boolean = false;
+
+  //0 = not answered, 1 = on screen, 2 = answered so card it blank
   questionAnswered: number = 0;
 
   displayContent(): string {
@@ -25,6 +27,7 @@ export class JeopardyCardComponent implements OnChanges {
     if (this.questionAnswered === 2) return;
     this.isQuestionVisible = !this.isQuestionVisible;
     this.question.value = 0;
+    console.log('What is ', this.question.response, '?');
     this.questionAnswered += 1;
   }
 }

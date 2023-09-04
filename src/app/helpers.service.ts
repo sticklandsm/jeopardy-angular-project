@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
-import request from 'superagent';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { FullGame } from './interfaces/JeopardyBoard';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HelpersService {
-  constructor() {}
+  private apiUrl = 'http://localhost:8999/';
 
-  async getJeopardyGame() {
-    try {
-      const response = await request.get('http://localhost:8999/');
-      return response.body;
-    } catch (error) {
-      console.error(error);
-    }
+  constructor(private http: HttpClient) {}
+
+  getJeopardyGame(): Observable<FullGame> {
+    return this.http.get(this.apiUrl) as Observable<FullGame>;
   }
 }
