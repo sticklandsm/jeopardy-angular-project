@@ -12,6 +12,7 @@ import { Ng2FittextModule } from 'ng2-fittext';
 import { MaximizeDirective } from './maximize.directive';
 import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { GameComponent } from './game/game.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     Ng2FittextModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

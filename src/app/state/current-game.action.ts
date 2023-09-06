@@ -1,9 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { HelpersService } from '../helpers.service';
+import { currentGameState } from './current-game.reducer';
 
-export const getJeopardyGame = createAction(
-  '[Jeopardy] Get Whole Game',
-  props<{ playersNames: string[] }>()
+export const setJeopardyGame = createAction(
+  '[Jeopardy] Set Whole Game',
+  props<{ game: currentGameState }>()
 );
 
 export const questionAnswered = createAction(

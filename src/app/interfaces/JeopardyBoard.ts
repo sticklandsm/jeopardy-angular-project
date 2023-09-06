@@ -22,6 +22,7 @@ export interface Category {
 }
 
 export interface FullGame {
+  gameId: Number;
   jeopardyRound: Category[];
   doubleJeopardyRound: Category[];
   finalJeopardy: FinalJeopardy;

@@ -21,6 +21,26 @@ app.get('/users', async (req, res) => {
   }
 });
 
+app.get('/game/:gameId', async (req, res) => {
+  const gameId = Number(req.params.gameId);
+  // const test = await Clue.findAll();
+  // console.log('SEAN: ', test);
+  const game = await Game.findByPk(gameId, {
+    include: [
+      {
+        model: Player,
+        attributes: ['name', 'score'],
+      },
+      {
+        model: Category,
+        attributes: ['category_name'],
+      },
+    ],
+  });
+
+  console.log('SEAN!!!!', game);
+});
+
 app.get('/', async (req, res) => {
   const randomNum = generateRandom(360000);
 
@@ -55,7 +75,6 @@ app.get('/', async (req, res) => {
         game_id,
       }).then((newCategoryRecord) => {
         //set up the clue create
-        console.log('newCategory: ', newCategoryRecord);
         const { id } = newCategoryRecord.dataValues;
         category.clues.forEach((clueCard) => {
           const { clue, value, response, daily_double } = clueCard;
@@ -78,7 +97,7 @@ app.get('/', async (req, res) => {
         game_id,
       }).then((newCategoryRecord) => {
         //set up the clue create
-        console.log('newCategory: ', newCategoryRecord);
+
         const { id } = newCategoryRecord.dataValues;
         category.clues.forEach((clueCard) => {
           const { clue, value, response, daily_double } = clueCard;
@@ -94,32 +113,7 @@ app.get('/', async (req, res) => {
       });
     });
 
-    // const jeopardyRoundCategory = fullGame.jeopardyRound.map((category) => {
-    //   return {
-    //     category_name: category.categoryName,
-    //     double_jeopardy: false,
-    //     game_id,
-    //   };
-    // });
-
-    // const doubleJeopardyRoundCategory = fullGame.doubleJeopardyRound.map(
-    //   (category) => {
-    //     return {
-    //       category_name: category.categoryName,
-    //       double_jeopardy: false,
-    //       game_id,
-    //     };
-    //   }
-    // );
-
-    // await Category.bulkCreate(jeopardyRoundCategory, {
-    //   returning: true,
-    // });
-    // await Category.bulkCreate(doubleJeopardyRoundCategory);
-
-    // const category_id = Category.bulkCreate()
-
-    res.json(fullGame);
+    res.json({ ...fullGame, gameId: game_id });
   } catch (error) {
     console.error(error);
     res.json(

@@ -12,10 +12,19 @@ export class GameComponent implements OnInit {
   jeopardyGame: FullGame = emptyData;
   contentLoaded: boolean = false;
 
-  constructor(private helpers: HelpersService) {}
+  constructor(private jeopardyService: HelpersService) {}
 
   async ngOnInit() {
-    this.jeopardyGame = await this.helpers.getJeopardyGame();
+    this.jeopardyService.getJeopardyGame().subscribe({
+      next: (game) => {
+        console.log('GameID: ', game);
+        this.jeopardyGame = game;
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
+
     console.log(this.jeopardyGame);
   }
 }
