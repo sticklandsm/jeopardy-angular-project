@@ -1,3 +1,14 @@
-<a [routerLink] = "['/game']" >New Game</a> <br/>
 
-SEANSEANSEAN
+
+<div>
+  <div>
+    <button (click)="newGame()">New Game</button>
+  </div>
+  <form (ngSubmit)="loadGame()">
+    <label for="gameId">Enter Game Number</label>
+    <input id="gameId" [(ngModel)]="gameToLoad" name="gameId">
+    <button type="submit">Submit</button>
+  </form>
+  
+</div>
+

@@ -9,6 +9,7 @@ export interface currentGameState {
 
 export const initialState: currentGameState = {
   game: {
+    gameId: 0,
     jeopardyRound: [],
     doubleJeopardyRound: [],
     finalJeopardy: {

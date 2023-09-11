@@ -13,6 +13,7 @@ import { MaximizeDirective } from './maximize.directive';
 import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     Ng2FittextModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
