@@ -40,7 +40,7 @@ export class JeopardyBoardComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (this.categories[0].categoryName) {
       this.contentLoaded = true;
-      console.log('content loaded: ', this.categories);
+
       this.splashScreenStateService.stop();
     }
   }

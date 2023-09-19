@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HelpersService } from '../helpers.service';
+import { DatabaseService } from '../database-service.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,9 +8,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
-  gameToLoad: number = 0;
+  gameToLoad: number | string = '';
   constructor(
-    private jeopardyService: HelpersService,
+    private databaseService: DatabaseService,
     private router: Router
   ) {}
 
@@ -19,11 +19,11 @@ export class HomeComponent {
   }
 
   async newGame() {
-    this.jeopardyService.NewJeopardyGame().subscribe({
-      next: (gameId) => {
+    this.databaseService.NewJeopardyGame().subscribe({
+      next: (gameId: number) => {
         this.router.navigate(['/game', gameId]);
       },
-      error: (error) => {
+      error: (error: Error) => {
         console.error(error);
       },
     });

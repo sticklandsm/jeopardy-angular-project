@@ -10,6 +10,7 @@ export interface Question {
   category: string;
   clue: string;
   response: string;
+  has_been_answered?: boolean;
 }
 
 export interface Questions {

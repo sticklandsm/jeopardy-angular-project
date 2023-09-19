@@ -15,7 +15,6 @@ export class JeopardyCategoryComponent implements OnChanges {
     const lengthOfCategory = categoryName.length;
     const amountOfSpaces = categoryName.split(' ').length;
     const avgLettersPerWord = lengthOfCategory / amountOfSpaces;
-    console.log(8 / (lengthOfCategory / amountOfSpaces));
     if (avgLettersPerWord < 4) {
       return 1.9 + 'rem';
     }

@@ -1,19 +1,19 @@
 import { createAction, props } from '@ngrx/store';
-import { HelpersService } from '../helpers.service';
-import { currentGameState } from './current-game.reducer';
+import { DatabaseService } from '../database-service.service';
+import { CurrentGame } from './current-game.reducer';
 
 export const setJeopardyGame = createAction(
   '[Jeopardy] Set Whole Game',
-  props<{ game: currentGameState }>()
+  props<{ game: CurrentGame }>()
 );
 
 export const questionAnswered = createAction(
   '[Jeopardy] Question Answered',
   props<{
-    column: number;
-    row: number;
+    clueId: number;
+    categoryName: string;
     doubleJeopardy: boolean;
-    answerGiven: string;
-    playerAnswering: number;
+    responseGiven: string;
+    playerAnswering: string;
   }>()
 );

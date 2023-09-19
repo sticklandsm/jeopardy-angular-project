@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://production-api-url.com/',
+  apiUrl: 'https://jeopardybackendfromdocker.azurewebsites.net/',
+  wsUrl: 'wss://jeopardybackendfromdocker.azurewebsites.net/',
 };

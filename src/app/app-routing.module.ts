@@ -5,11 +5,11 @@ import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
 
 const routes: Routes = [
+  { path: 'game/:gameId', component: GameComponent },
   {
     path: '',
     component: HomeComponent,
   },
-  { path: 'game/:gameId', component: GameComponent },
 ];
 
 @NgModule({

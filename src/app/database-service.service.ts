@@ -7,8 +7,8 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class HelpersService {
-  private apiUrl = 'http://localhost:8999/';
+export class DatabaseService {
+  private apiUrl: string = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -19,5 +19,16 @@ export class HelpersService {
   }
   NewJeopardyGame(): Observable<number> {
     return this.http.get(this.apiUrl + 'newGame') as Observable<number>;
+  }
+
+  clueHasBeenAnswered(clueId: number): Observable<number> {
+    try {
+      return this.http.get(
+        this.apiUrl + 'clueAnswered/' + clueId
+      ) as Observable<number>;
+    } catch (error) {
+      console.error(error);
+      return new Observable<500>();
+    }
   }
 }

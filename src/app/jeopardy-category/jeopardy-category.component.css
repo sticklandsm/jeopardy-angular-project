@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'CatergoriesFont'; /* The name you'll use to reference the font */
-  src: url('../../assets/fonts/Swiss911CompressedRegular.otf') format('opentype'); /* Path to your OTF file */
+  src: url('../fonts/Swiss911CompressedRegular.otf') format('opentype'); /* Path to your OTF file */
   /* Additional font properties (e.g., font-weight, font-style) can be added here */
 }
 

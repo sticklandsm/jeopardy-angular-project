@@ -14,6 +14,8 @@ import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { jeopardyReducer } from './state/current-game.reducer';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { FormsModule } from '@angular/forms';
     Ng2FittextModule,
     HttpClientModule,
     FormsModule,
+    StoreModule.forRoot({ currentGame: jeopardyReducer }),
   ],
   providers: [],
   bootstrap: [AppComponent],

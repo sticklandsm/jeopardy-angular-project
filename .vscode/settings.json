@@ -1,0 +1,4 @@
+{
+  "appService.defaultWebAppToDeploy": "/subscriptions/84dfa75c-5b48-48d3-b58c-3149293da946/resourceGroups/sandcastleink_group/providers/Microsoft.Web/sites/jeopardy-frontend",
+  "appService.deploySubpath": "dist/jeopardy-angular-project"
+}

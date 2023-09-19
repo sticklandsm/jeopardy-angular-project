@@ -1,14 +1,10 @@
-
-
-<div>
-  <div>
-    <button (click)="newGame()">New Game</button>
+<div class="container">
+  <div class="button-section">
+    <button (click)="newGame()" class="btn-primary">New Game</button>
   </div>
-  <form (ngSubmit)="loadGame()">
-    <label for="gameId">Enter Game Number</label>
-    <input id="gameId" [(ngModel)]="gameToLoad" name="gameId">
-    <button type="submit">Submit</button>
+  <form (ngSubmit)="loadGame()" class="form-section">
+    <label for="gameId" class="label">Load Game:</label>
+    <input id="gameId" [(ngModel)]="gameToLoad" name="gameId" class="input" placeholder="Enter game number">
+    <button type="submit" class="btn-secondary">Submit</button>
   </form>
-  
 </div>
-
