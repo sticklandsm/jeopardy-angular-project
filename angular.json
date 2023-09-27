@@ -21,9 +21,10 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/assets/fonts/Swiss911CompressedRegular.otf",
+              "src/fonts/Swiss911CompressedRegular.otf",
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/web.config"
             ],
             "styles": [
               "src/styles.css"

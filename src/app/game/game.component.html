@@ -1,2 +1,10 @@
 <app-jeopardy-board [categories]="jeopardyGame.jeopardyRound"></app-jeopardy-board>
+
 <app-splash-screen></app-splash-screen>
+<div class="container">
+  <div class="playerScores">
+    <div *ngFor="let playerScore of playerScores">
+    <app-contestant [namesAndScores]="playerScore"></app-contestant>
+    </div>
+  </div>
+</div>

@@ -6,10 +6,10 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Question } from '../interfaces/JeopardyBoard';
-import { MaximizeDirective } from '../maximize.directive';
 import { DatabaseService } from '../database-service.service';
 import { Store } from '@ngrx/store';
-import { questionAnswered } from '../state/current-game.action';
+import { WebsocketService } from '../web-socket.service';
+import { ResponsePassService } from '../response-pass.service';
 
 @Component({
   selector: 'app-jeopardy-card',
@@ -17,9 +17,18 @@ import { questionAnswered } from '../state/current-game.action';
   styleUrls: ['./jeopardy-card.component.css'],
 })
 export class JeopardyCardComponent implements OnChanges, OnInit {
+  // need to set up an observable in this class so that it can send out an alert when a question is clicked and the Game class can listen and send off a message through WS.
+
+  @Input() categoryIndex: number = 0;
+  @Input() clueIndex: number = 0;
   @Input() question: Question = {} as Question;
   @Input() category: string = '';
-  constructor(private databaseService: DatabaseService, private store: Store) {}
+
+  constructor(
+    private databaseService: DatabaseService,
+    private store: Store,
+    private responsePassService: ResponsePassService
+  ) {}
 
   isQuestionVisible: boolean = false;
 
@@ -55,8 +64,18 @@ export class JeopardyCardComponent implements OnChanges, OnInit {
     // );
 
     console.log('What is ', this.question.response, '?');
-    console.log('The whole thing: ', this.question);
+
     this.clueAnswered += 1;
+    if (this.clueAnswered === 1) {
+      this.responsePassService.sendQuestion({
+        ...this.question,
+        playerId: 1,
+        playerName: 'Sean',
+        responseCorrect: true,
+        categoryIndex: this.categoryIndex,
+        clueIndex: this.clueIndex,
+      });
+    }
 
     this.databaseService.clueHasBeenAnswered(this.question.id).subscribe();
   }

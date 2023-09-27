@@ -7,6 +7,7 @@ import { Category } from '../interfaces/JeopardyBoard';
   styleUrls: ['./jeopardy-category.component.css'],
 })
 export class JeopardyCategoryComponent implements OnChanges {
+  @Input() categoryIndex: number = 0;
   @Input() category: Category = { categoryName: '', clues: [] };
 
   ngOnChanges(changes: SimpleChanges): void {}

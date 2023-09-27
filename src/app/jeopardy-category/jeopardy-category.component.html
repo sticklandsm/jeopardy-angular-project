@@ -2,8 +2,8 @@
   <p [fittext]="true" [modelToWatch]="category.categoryName" [activateOnResize]="true" [maxFontSize]="32">{{category.categoryName}}</p>
 </div>
 
-  <div *ngFor="let clue of category.clues" >
-      <app-jeopardy-card [question]="clue" [category]="category.categoryName"></app-jeopardy-card>
+  <div *ngFor="let clue of category.clues; index as clueIndex" >
+      <app-jeopardy-card [question]="clue" [category]="category.categoryName" [clueIndex]="clueIndex" [categoryIndex]="categoryIndex"></app-jeopardy-card>
   </div>
 
 

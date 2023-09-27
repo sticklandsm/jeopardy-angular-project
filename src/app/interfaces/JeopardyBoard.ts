@@ -13,6 +13,14 @@ export interface Question {
   has_been_answered?: boolean;
 }
 
+export interface QuestionAnswered extends Question {
+  playerId: number;
+  playerName: string;
+  responseCorrect: boolean;
+  categoryIndex: number;
+  clueIndex: number;
+}
+
 export interface Questions {
   data: Question[];
 }

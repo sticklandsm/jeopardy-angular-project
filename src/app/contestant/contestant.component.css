@@ -1,0 +1,17 @@
+
+.cell {
+  text-shadow: 1px 1px 1px #000;
+  font-family: 'CatergoriesFont', sans-serif;
+  text-shadow: 0.6px 0.6px 0.6px #000;
+  width: 300px;
+  height: 5rem;
+  font-size: 3rem; 
+  color: white ;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1; 
+  background-color: #010a78; /* Set the background color of question cells */
+  border: 1px solid #000000; /* Set the border color and style */
+}

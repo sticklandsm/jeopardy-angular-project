@@ -16,6 +16,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { jeopardyReducer } from './state/current-game.reducer';
+import { ContestantComponent } from './contestant/contestant.component';
+import { WebsocketService } from './web-socket.service';
+import { ResponsePassService } from './response-pass.service';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,7 @@ import { jeopardyReducer } from './state/current-game.reducer';
     MaximizeDirective,
     HomeComponent,
     GameComponent,
+    ContestantComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +42,7 @@ import { jeopardyReducer } from './state/current-game.reducer';
     FormsModule,
     StoreModule.forRoot({ currentGame: jeopardyReducer }),
   ],
-  providers: [],
+  providers: [WebsocketService, ResponsePassService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
