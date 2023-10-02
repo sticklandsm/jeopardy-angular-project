@@ -16,6 +16,7 @@
   background-color: #010a78; /* Set the background color of question cells */
   border: 1px solid #000000; /* Set the border color and style */
   cursor: pointer; /* Add a pointer cursor to indicate clickable cells */
+  line-height: normal;
 }
 
 .fullscreen {
@@ -28,6 +29,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9999;
+ 
   transition: all 0.3s ease; /* Add this line for smooth transition */
+ 
 }
+

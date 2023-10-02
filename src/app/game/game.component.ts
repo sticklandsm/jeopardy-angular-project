@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FullGame, QuestionAnswered } from '../interfaces/JeopardyBoard';
+import { FullGame, ClueAnswered } from '../interfaces/JeopardyBoard';
 import emptyData from '../dummyData/emptyData.json';
 import { DatabaseService } from '../database-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { selectCurrentGame } from '../state/current-game.selectors';
 import {
-  questionAnswered,
+  markClueAnswered,
   setJeopardyGame,
 } from '../state/current-game.action';
 import { Store } from '@ngrx/store';
@@ -21,7 +21,6 @@ import { ResponsePassService } from '../response-pass.service';
 })
 export class GameComponent implements OnInit {
   received: any[] = [];
-  contentToSend = questionAnswered;
 
   playerScores: PlayerScore[] = [
     { id: 1, name: 'Sean', score: 0 },
@@ -40,19 +39,15 @@ export class GameComponent implements OnInit {
     private websocketService: WebsocketService
   ) {
     websocketService.messages.subscribe(
-      (receivedData: { source: string; content: QuestionAnswered }) => {
+      (receivedData: { source: string; content: ClueAnswered }) => {
+        console.log('FFFFFIIIIIIIIIIIIIIIIIIIRRRRRRRING');
+        if (!receivedData.content) return;
+
         this.received.push(receivedData);
 
-        if (!receivedData.content) return;
-        const categoryIndex = receivedData.content.categoryIndex;
-        const clueIndex = receivedData.content.clueIndex;
-        console.log(
-          'clues: ',
-          this.jeopardyGame.jeopardyRound[categoryIndex].clues
+        this.store.dispatch(
+          markClueAnswered({ ClueAnswered: receivedData.content })
         );
-        this.jeopardyGame.jeopardyRound[categoryIndex].clues[
-          clueIndex
-        ].value = 0;
       }
     );
 
@@ -63,7 +58,6 @@ export class GameComponent implements OnInit {
 
   async ngOnInit() {
     this.responsePassService.data$.subscribe((playerResponse) => {
-      console.log('QUESTION FROM GAME COMPONENT', playerResponse);
       this.websocketService.messages.next({
         source: 'gameComponenet',
         content: playerResponse,

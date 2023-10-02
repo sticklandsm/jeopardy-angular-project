@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OpenCloseComponent } from './open-close.component';
+import { OpenCardComponent } from './open-card.component';
 
-describe('OpenCloseComponent', () => {
-  let component: OpenCloseComponent;
-  let fixture: ComponentFixture<OpenCloseComponent>;
+describe('OpenCardComponent', () => {
+  let component: OpenCardComponent;
+  let fixture: ComponentFixture<OpenCardComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [OpenCloseComponent]
+      declarations: [OpenCardComponent]
     });
-    fixture = TestBed.createComponent(OpenCloseComponent);
+    fixture = TestBed.createComponent(OpenCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

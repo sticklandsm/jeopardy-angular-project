@@ -1,19 +1,17 @@
 type JeopardyValue = 100 | 200 | 400 | 800 | 1000;
 type DoubleJeopardyValue = 400 | 800 | 1200 | 1600 | 2000;
 
-export interface Question {
+export interface Clue {
   id: number;
-  game_id: number;
   value: number;
   daily_double: boolean;
-  round: string;
-  category: string;
   clue: string;
   response: string;
-  has_been_answered?: boolean;
+  has_been_answered: boolean;
+  onScreenCurrently: boolean;
 }
 
-export interface QuestionAnswered extends Question {
+export interface ClueAnswered extends Clue {
   playerId: number;
   playerName: string;
   responseCorrect: boolean;
@@ -21,13 +19,18 @@ export interface QuestionAnswered extends Question {
   clueIndex: number;
 }
 
+export interface ClueSelected extends Clue {
+  categoryIndex: number;
+  clueIndex: number;
+}
+
 export interface Questions {
-  data: Question[];
+  data: Clue[];
 }
 
 export interface Category {
   categoryName: string;
-  clues: Question[];
+  clues: Clue[];
 }
 
 export interface FullGame {

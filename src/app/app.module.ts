@@ -7,7 +7,6 @@ import { JeopardyBoardComponent } from './jeopardy-board/jeopardy-board.componen
 import { JeopardyCategoryComponent } from './jeopardy-category/jeopardy-category.component';
 import { JeopardyCardComponent } from './jeopardy-card/jeopardy-card.component';
 import { SplashScreenComponent } from './splash-screen/splash-screen.component';
-import { OpenCloseComponent } from './open-close/open-close.component';
 import { Ng2FittextModule } from 'ng2-fittext';
 import { MaximizeDirective } from './maximize.directive';
 import { HomeComponent } from './home/home.component';
@@ -19,6 +18,11 @@ import { jeopardyReducer } from './state/current-game.reducer';
 import { ContestantComponent } from './contestant/contestant.component';
 import { WebsocketService } from './web-socket.service';
 import { ResponsePassService } from './response-pass.service';
+import { ModalComponent } from './modal/modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { OpenCardComponent } from './open-card/open-card.component';
 
 @NgModule({
   declarations: [
@@ -27,11 +31,12 @@ import { ResponsePassService } from './response-pass.service';
     JeopardyCategoryComponent,
     JeopardyCardComponent,
     SplashScreenComponent,
-    OpenCloseComponent,
     MaximizeDirective,
     HomeComponent,
     GameComponent,
     ContestantComponent,
+    ModalComponent,
+    OpenCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +46,9 @@ import { ResponsePassService } from './response-pass.service';
     HttpClientModule,
     FormsModule,
     StoreModule.forRoot({ currentGame: jeopardyReducer }),
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   providers: [WebsocketService, ResponsePassService],
   bootstrap: [AppComponent],

@@ -1,5 +1,5 @@
-import { currentGameState } from './current-game.reducer';
+import { CurrentGame } from './current-game.reducer';
 
 export interface AppState {
-  currentGame: currentGameState;
+  currentGame: CurrentGame;
 }

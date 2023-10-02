@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { QuestionAnswered } from './interfaces/JeopardyBoard';
+import { ClueAnswered } from './interfaces/JeopardyBoard';
 
 @Injectable({
   providedIn: 'root',
@@ -8,10 +8,10 @@ import { QuestionAnswered } from './interfaces/JeopardyBoard';
 export class ResponsePassService {
   constructor() {}
 
-  private dataSubject = new Subject<QuestionAnswered>();
+  private dataSubject = new Subject<ClueAnswered>();
   data$ = this.dataSubject.asObservable();
 
-  sendQuestion(question: QuestionAnswered) {
+  sendQuestion(question: ClueAnswered) {
     this.dataSubject.next(question);
   }
 }

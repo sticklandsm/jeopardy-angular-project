@@ -24,7 +24,7 @@ export class DatabaseService {
   clueHasBeenAnswered(clueId: number): Observable<number> {
     try {
       return this.http.get(
-        this.apiUrl + 'clueAnswered/' + clueId
+        this.apiUrl + 'ClueAnswered/' + clueId
       ) as Observable<number>;
     } catch (error) {
       console.error(error);

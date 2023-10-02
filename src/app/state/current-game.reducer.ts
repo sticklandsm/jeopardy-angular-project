@@ -1,6 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import { FullGame } from '../interfaces/JeopardyBoard';
-import { setJeopardyGame, questionAnswered } from './current-game.action';
+import {
+  setJeopardyGame,
+  markClueAnswered,
+  putClueOnScreen,
+} from './current-game.action';
 
 export interface CurrentGame {
   game: FullGame;
@@ -15,7 +19,7 @@ export const initialState: CurrentGame = {
     finalJeopardy: {
       id: 0,
       answer: 'Initial Answer!',
-      question: 'Initial Question!',
+      question: 'Initial Clue!',
       airdate: '',
       category: { title: 'initial FJ Category' },
     },
@@ -25,61 +29,72 @@ export const initialState: CurrentGame = {
 
 export const jeopardyReducer = createReducer(
   initialState,
-  on(setJeopardyGame, (state, { game }) => game),
+  on(setJeopardyGame, (state, { game }) => {
+    console.log('redux is setting a game', state);
+    return game;
+  }),
   on(
-    questionAnswered,
+    markClueAnswered,
     (
       state,
       payload
       // { clueId, category, doubleJeopardy, answerGiven, playerAnswering }
     ) => {
-      // const newState = { ...state };
+      const {
+        id,
+        playerId,
+        responseCorrect,
+        categoryIndex,
+        clueIndex,
+        playerName,
+      } = payload.ClueAnswered;
+
+      //make sure they're in the same game
+      if (state.game.jeopardyRound[categoryIndex].clues[clueIndex].id !== id)
+        return state;
+
+      //create newState this way because doing it through Splice didn't work for some reason.
       const newState = JSON.parse(JSON.stringify(state)) as CurrentGame;
 
-      //Gets the answer for jeopardy and doubleJeopardy and then extracts the correct one
-      const categoryBeingAnswered = newState.game.jeopardyRound.find(
-        (category) => {
-          return category.categoryName.toUpperCase() === payload.categoryName;
-        }
+      let { value } =
+        newState.game.jeopardyRound[categoryIndex].clues[clueIndex];
+
+      const playerToUpdate = newState.playerScores.find(
+        (player) => player.playerName === playerName
       );
-      if (!categoryBeingAnswered) {
-        console.error(
-          'category not found, somethings gone wrong in state management'
-        );
-        return newState;
+
+      if (playerToUpdate) {
+        playerToUpdate.score += value;
       }
 
-      const clueBeingAnswered = categoryBeingAnswered.clues.find((clue) => {
-        return clue.id === payload.clueId;
-      });
+      //update the value of the card to 0, and mark it as answered
+      newState.game.jeopardyRound[categoryIndex].clues[clueIndex].value = 0;
 
-      if (!clueBeingAnswered) {
-        console.error(
-          'clue not found, somethings gone wrong in state management'
-        );
-        return newState;
-      }
-
-      clueBeingAnswered.has_been_answered = true;
-
-      const wasItCorrect = clueBeingAnswered.response === payload.responseGiven;
-
-      const playerScoreToChange = newState.playerScores.find((playerScore) => {
-        return playerScore.playerName === payload.playerAnswering;
-      });
-
-      if (!playerScoreToChange) {
-        console.error(
-          'player not found, somethings gone wrong in state management'
-        );
-        return newState;
-      }
-
-      playerScoreToChange.score +=
-        clueBeingAnswered.value * (Number(wasItCorrect) - 1) ||
-        clueBeingAnswered.value;
+      newState.game.jeopardyRound[categoryIndex].clues[
+        clueIndex
+      ].has_been_answered = true;
 
       return newState;
     }
-  )
+  ),
+  on(putClueOnScreen, (state, payload) => {
+    const { id, categoryIndex, clueIndex } = payload.clueSelected;
+
+    //make sure they're in the same game
+    if (
+      state.game.jeopardyRound[categoryIndex || 0].clues[clueIndex || 0].id !==
+      id
+    )
+      return state;
+
+    //create newState this way because doing it through Splice didn't work for some reason.
+    const newState = JSON.parse(JSON.stringify(state)) as CurrentGame;
+
+    newState.game.jeopardyRound[categoryIndex || 0].clues[clueIndex || 0] = {
+      ...newState.game.jeopardyRound[categoryIndex || 0].clues[clueIndex || 0],
+      onScreenCurrently: true,
+    };
+
+    return newState;
+  })
 );

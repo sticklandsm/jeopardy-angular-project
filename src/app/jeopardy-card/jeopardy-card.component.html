@@ -1,5 +1,11 @@
 
 <div class="cell" (click)="onClickShowQuestion()" maximize #maximize="maximize" (click)="maximize.toggle()" >
-
+  <div>
     {{displayContent()}}
+  </div>
+  <div *ngIf="question.onScreenCurrently">
+    <app-open-card [clueText]="question.clue"></app-open-card>
+  </div>
 </div>
+
+
