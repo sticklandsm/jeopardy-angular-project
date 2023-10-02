@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-open-card',
@@ -7,6 +7,12 @@ import { Component, Input } from '@angular/core';
 })
 export class OpenCardComponent {
   @Input() clueText: string = '';
+
+  @Output() clickEmitter = new EventEmitter<string>();
+
+  openCardClicked() {
+    this.clickEmitter.emit('sean');
+  }
 
   //research event emitters in order to make this componenent when clicked sound out an event to Card
   //So that it can turn off show full screen.

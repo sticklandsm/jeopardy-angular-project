@@ -9,7 +9,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class ModalComponent {
   constructor(
     public dialogRef: MatDialogRef<ModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      title: string;
+      content: string;
+      placeholder: string;
+    }
   ) {}
 
   onNoClick(): void {
@@ -19,12 +24,12 @@ export class ModalComponent {
   onSaveClick(): void {
     // Implement the save logic here, if needed
     // You can also return a result to the component that opened the modal
-    this.dialogRef.close('saved');
+    this.dialogRef.close(this.data.content);
   }
 
   onCancelClick(): void {
     // Implement the cancel logic here, if needed
-    this.dialogRef.close('canceled');
+    this.dialogRef.close('pass');
   }
 }
 

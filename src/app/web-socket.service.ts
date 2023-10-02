@@ -31,7 +31,6 @@ export class WebsocketService {
   public connect(url: string): AnonymousSubject<MessageEvent> {
     if (!this.subject) {
       this.subject = this.create(url);
-      console.log('Successfully connected: ' + url);
     }
     return this.subject;
   }
@@ -55,7 +54,6 @@ export class WebsocketService {
       complete: () => {},
       next: (data: Object) => {
         if (ws.readyState === WebSocket.OPEN) {
-          console.log('Message sent to websocket: ', data);
           ws.send(JSON.stringify(data));
         } else {
           console.log('Web socket not open', ws.readyState, WebSocket.OPEN);

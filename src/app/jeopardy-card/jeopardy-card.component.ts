@@ -13,7 +13,10 @@ import { WebsocketService } from '../web-socket.service';
 import { ResponsePassService } from '../response-pass.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
-import { putClueOnScreen } from '../state/current-game.action';
+import {
+  markClueAnswered,
+  putClueOnScreen,
+} from '../state/current-game.action';
 
 @Component({
   selector: 'app-jeopardy-card',
@@ -38,7 +41,11 @@ export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
     private dialog: MatDialog
   ) {}
 
-  openEnterResponseModal() {
+  openCardClicked(playerName: string) {
+    this.openEnterResponseModal();
+  }
+
+  openEnterResponseModal(): void {
     const modalData = {
       title: 'Enter Respose',
       content: '',
@@ -50,67 +57,60 @@ export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
       data: modalData,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      this.responseGiven = result;
-    });
-  }
-
-  //0 = not answered, 1 = showing the clue on screen, 2 = answered so card is blank
-  ClueAnswered: number = 0;
-
-  ngOnInit(): void {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.question.has_been_answered) {
-      this.ClueAnswered = 2;
-    }
-    console.log('change to input detected');
-  }
-
-  ngDoCheck(): void {
-    if (this.question.onScreenCurrently) {
-      console.log(this.question);
-    }
-  }
-
-  displayContent(): string {
-    if (this.ClueAnswered === 2) return '';
-    if (this.isQuestionVisible) return this.question.clue.toUpperCase();
-    if (this.question.value) return '$' + this.question.value;
-    return '';
-  }
-  onClickShowQuestion() {
-    if (this.ClueAnswered === 2) return;
-
-    this.isQuestionVisible = !this.isQuestionVisible;
-
-    console.log('What is ', this.question.response, '?');
-
-    this.ClueAnswered += 1;
-    if (this.ClueAnswered === 1) {
-      this.openEnterResponseModal();
+    dialogRef.afterClosed().subscribe((responseGiven) => {
+      this.responseGiven = responseGiven;
 
       this.responsePassService.sendQuestion({
         ...this.question,
         playerId: 1,
         playerName: 'Sean',
-        responseCorrect: true,
+        responseCorrect:
+          this.question.response.toLowerCase() ===
+            (responseGiven || '').toLowerCase() || responseGiven === 'pass',
         categoryIndex: this.categoryIndex,
         clueIndex: this.clueIndex,
-        onScreenCurrently: true,
+        // onScreenCurrently: true,
       });
+    });
+  }
 
-      this.store.dispatch(
-        putClueOnScreen({
-          clueSelected: {
-            ...this.question,
-            categoryIndex: this.categoryIndex,
-            clueIndex: this.clueIndex,
-            onScreenCurrently: true,
-          },
-        })
-      );
-    }
+  ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges): void {}
+
+  ngDoCheck(): void {}
+
+  displayContent(): string {
+    if (this.question.has_been_answered) return '';
+    if (this.question.value) return '$' + this.question.value;
+    return '';
+  }
+  onClickShowQuestion() {
+    if (this.question.has_been_answered) return;
+
+    //commenting this out in order to try to get the web sockets to handle more of the stuff.
+    // this.store.dispatch(
+    //   putClueOnScreen({
+    //     clueSelected: {
+    //       ...this.question,
+    //       categoryIndex: this.categoryIndex,
+    //       clueIndex: this.clueIndex,
+    //       onScreenCurrently: true,
+    //     },
+    //   })
+    // );
+
+    console.log('What is ', this.question.response, '?');
+
+    this.responsePassService.sendQuestion({
+      ...this.question,
+      playerId: 1,
+      playerName: 'Sean',
+      responseCorrect: true,
+      categoryIndex: this.categoryIndex,
+      clueIndex: this.clueIndex,
+      // onScreenCurrently: true,
+    });
 
     this.databaseService.clueHasBeenAnswered(this.question.id).subscribe();
   }

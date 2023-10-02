@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { selectCurrentGame } from '../state/current-game.selectors';
 import {
   markClueAnswered,
+  putClueOnScreen,
   setJeopardyGame,
 } from '../state/current-game.action';
 import { Store } from '@ngrx/store';
@@ -40,14 +41,18 @@ export class GameComponent implements OnInit {
   ) {
     websocketService.messages.subscribe(
       (receivedData: { source: string; content: ClueAnswered }) => {
-        console.log('FFFFFIIIIIIIIIIIIIIIIIIIRRRRRRRING');
         if (!receivedData.content) return;
 
-        this.received.push(receivedData);
+        this.received.push(receivedData.content);
+        if (receivedData.content.responseCorrect) {
+          this.store.dispatch(
+            putClueOnScreen({ clueSelected: receivedData.content })
+          );
 
-        this.store.dispatch(
-          markClueAnswered({ ClueAnswered: receivedData.content })
-        );
+          this.store.dispatch(
+            markClueAnswered({ ClueAnswered: receivedData.content })
+          );
+        }
       }
     );
 

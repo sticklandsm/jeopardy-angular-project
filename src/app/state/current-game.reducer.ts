@@ -30,7 +30,6 @@ export const initialState: CurrentGame = {
 export const jeopardyReducer = createReducer(
   initialState,
   on(setJeopardyGame, (state, { game }) => {
-    console.log('redux is setting a game', state);
     return game;
   }),
   on(
@@ -81,18 +80,20 @@ export const jeopardyReducer = createReducer(
     const { id, categoryIndex, clueIndex } = payload.clueSelected;
 
     //make sure they're in the same game
-    if (
-      state.game.jeopardyRound[categoryIndex || 0].clues[clueIndex || 0].id !==
-      id
-    )
+    if (state.game.jeopardyRound[categoryIndex].clues[clueIndex].id !== id)
       return state;
 
     //create newState this way because doing it through Splice didn't work for some reason.
     const newState = JSON.parse(JSON.stringify(state)) as CurrentGame;
 
-    newState.game.jeopardyRound[categoryIndex || 0].clues[clueIndex || 0] = {
-      ...newState.game.jeopardyRound[categoryIndex || 0].clues[clueIndex || 0],
-      onScreenCurrently: true,
+    //making it toggle between on screen and off screen.
+    const currentStateOfDisplay =
+      newState.game.jeopardyRound[categoryIndex].clues[clueIndex]
+        .onScreenCurrently;
+
+    newState.game.jeopardyRound[categoryIndex].clues[clueIndex] = {
+      ...newState.game.jeopardyRound[categoryIndex].clues[clueIndex],
+      onScreenCurrently: !currentStateOfDisplay,
     };
 
     return newState;
