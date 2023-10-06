@@ -9,14 +9,9 @@ import {
 import { Clue } from '../interfaces/JeopardyBoard';
 import { DatabaseService } from '../database-service.service';
 import { Store } from '@ngrx/store';
-import { WebsocketService } from '../web-socket.service';
 import { ResponsePassService } from '../response-pass.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
-import {
-  markClueAnswered,
-  putClueOnScreen,
-} from '../state/current-game.action';
 
 @Component({
   selector: 'app-jeopardy-card',
@@ -24,8 +19,6 @@ import {
   styleUrls: ['./jeopardy-card.component.css'],
 })
 export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
-  // need to set up an observable in this class so that it can send out an alert when a question is clicked and the Game class can listen and send off a message through WS.
-
   @Input() categoryIndex: number = 0;
   @Input() clueIndex: number = 0;
   @Input() question: Clue = {} as Clue;
@@ -35,12 +28,9 @@ export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
   isQuestionVisible: boolean = false;
 
   constructor(
-    private databaseService: DatabaseService,
-    private store: Store,
     private responsePassService: ResponsePassService,
     private dialog: MatDialog
   ) {}
-
   openCardClicked(playerName: string) {
     this.openEnterResponseModal();
   }
@@ -60,17 +50,20 @@ export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
     dialogRef.afterClosed().subscribe((responseGiven) => {
       this.responseGiven = responseGiven;
 
-      this.responsePassService.sendQuestion({
-        ...this.question,
-        playerId: 1,
-        playerName: 'Sean',
-        responseCorrect:
-          this.question.response.toLowerCase() ===
-            (responseGiven || '').toLowerCase() || responseGiven === 'pass',
-        categoryIndex: this.categoryIndex,
-        clueIndex: this.clueIndex,
-        // onScreenCurrently: true,
-      });
+      this.responsePassService.sendQuestion(
+        {
+          ...this.question,
+          playerId: 1,
+          playerName: 'Sean',
+          responseCorrect:
+            this.question.response.toLowerCase() ===
+              (responseGiven || '').toLowerCase() || responseGiven === 'pass',
+          categoryIndex: this.categoryIndex,
+          clueIndex: this.clueIndex,
+          // onScreenCurrently: true,
+        },
+        { x: 0, y: 0, width: 0 }
+      );
     });
   }
 
@@ -85,8 +78,11 @@ export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
     if (this.question.value) return '$' + this.question.value;
     return '';
   }
-  onClickShowQuestion() {
+
+  onClickShowQuestion({ target }: MouseEvent) {
     if (this.question.has_been_answered) return;
+
+    const elementDetails = (target as Element).getBoundingClientRect();
 
     //commenting this out in order to try to get the web sockets to handle more of the stuff.
     // this.store.dispatch(
@@ -102,16 +98,24 @@ export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
 
     console.log('What is ', this.question.response, '?');
 
-    this.responsePassService.sendQuestion({
-      ...this.question,
-      playerId: 1,
-      playerName: 'Sean',
-      responseCorrect: true,
-      categoryIndex: this.categoryIndex,
-      clueIndex: this.clueIndex,
-      // onScreenCurrently: true,
-    });
+    this.responsePassService.sendQuestion(
+      {
+        ...this.question,
+        playerId: 1,
+        playerName: 'Sean',
+        responseCorrect: true,
+        categoryIndex: this.categoryIndex,
+        clueIndex: this.clueIndex,
+      },
+      {
+        x: elementDetails.top,
+        y: elementDetails.left,
+        width: elementDetails.width,
+      }
+    );
 
-    this.databaseService.clueHasBeenAnswered(this.question.id).subscribe();
+    // this.databaseService.clueHasBeenAnswered(this.question.id).subscribe();
   }
 }
+
+//try to work out how to make the lower component register changes to it's inputs better. Maybe through Renderer?

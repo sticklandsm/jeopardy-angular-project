@@ -3,17 +3,17 @@ import { FullGame, ClueAnswered } from '../interfaces/JeopardyBoard';
 import emptyData from '../dummyData/emptyData.json';
 import { DatabaseService } from '../database-service.service';
 import { ActivatedRoute } from '@angular/router';
-import { selectCurrentGame } from '../state/current-game.selectors';
+import { selectCurrentGame } from '../state/current-game/current-game.selectors';
 import {
   markClueAnswered,
   putClueOnScreen,
   setJeopardyGame,
-} from '../state/current-game.action';
+} from '../state/current-game/current-game.action';
 import { Store } from '@ngrx/store';
-import { environment } from 'src/environments/environment';
 import { PlayerScore } from '../interfaces/PlayerScores';
 import { WebsocketService } from '../web-socket.service';
 import { ResponsePassService } from '../response-pass.service';
+import { selectCurrentPlayer } from '../state/current-player/current-player.selectors';
 
 @Component({
   selector: 'app-game',
@@ -31,6 +31,7 @@ export class GameComponent implements OnInit {
   jeopardyGame: FullGame = emptyData;
   contentLoaded: boolean = false;
   gameId = 0;
+  currentPlayerName = '';
 
   constructor(
     private jeopardyService: DatabaseService,
@@ -46,7 +47,14 @@ export class GameComponent implements OnInit {
         this.received.push(receivedData.content);
         if (receivedData.content.responseCorrect) {
           this.store.dispatch(
-            putClueOnScreen({ clueSelected: receivedData.content })
+            putClueOnScreen({
+              clueSelected: receivedData.content,
+              clueSelectedCoordinates: receivedData.content.clueCoordinates || {
+                x: 0,
+                y: 0,
+                width: 0,
+              },
+            })
           );
 
           this.store.dispatch(
@@ -62,6 +70,9 @@ export class GameComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.store.select(selectCurrentPlayer).subscribe((state) => {
+      this.currentPlayerName = state.name;
+    });
     this.responsePassService.data$.subscribe((playerResponse) => {
       this.websocketService.messages.next({
         source: 'gameComponenet',
@@ -73,7 +84,15 @@ export class GameComponent implements OnInit {
       next: (game) => {
         this.store.dispatch(
           setJeopardyGame({
-            game: { game, playerScores: [{ playerName: 'Sean', score: 0 }] },
+            game: {
+              game,
+              playerScores: [
+                {
+                  playerName: this.currentPlayerName || 'not entered',
+                  score: 0,
+                },
+              ],
+            },
           })
         );
 

@@ -1,7 +1,12 @@
 import { createAction, props } from '@ngrx/store';
-import { DatabaseService } from '../database-service.service';
-import { CurrentGame } from './current-game.reducer';
-import { Clue, ClueAnswered, ClueSelected } from '../interfaces/JeopardyBoard';
+import { DatabaseService } from '../../database-service.service';
+import { CurrentGame } from '../current-game/current-game.reducer';
+import {
+  Clue,
+  ClueAnswered,
+  ClueSelected,
+  ClueSelectedCoordinates,
+} from '../../interfaces/JeopardyBoard';
 
 export const setJeopardyGame = createAction(
   '[Jeopardy] Set Whole Game',
@@ -19,5 +24,6 @@ export const putClueOnScreen = createAction(
   '[Jeopardy] Put the Clue on Screen',
   props<{
     clueSelected: ClueSelected;
+    clueSelectedCoordinates: ClueSelectedCoordinates;
   }>()
 );

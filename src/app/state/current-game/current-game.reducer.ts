@@ -1,5 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
-import { FullGame } from '../interfaces/JeopardyBoard';
+import {
+  ClueSelectedCoordinates,
+  FullGame,
+} from '../../interfaces/JeopardyBoard';
 import {
   setJeopardyGame,
   markClueAnswered,
@@ -27,7 +30,7 @@ export const initialState: CurrentGame = {
   playerScores: [],
 };
 
-export const jeopardyReducer = createReducer(
+export const currentGameReducer = createReducer(
   initialState,
   on(setJeopardyGame, (state, { game }) => {
     return game;
@@ -67,7 +70,7 @@ export const jeopardyReducer = createReducer(
       }
 
       //update the value of the card to 0, and mark it as answered
-      newState.game.jeopardyRound[categoryIndex].clues[clueIndex].value = 0;
+      // newState.game.jeopardyRound[categoryIndex].clues[clueIndex].value = 0;
 
       newState.game.jeopardyRound[categoryIndex].clues[
         clueIndex
@@ -78,6 +81,7 @@ export const jeopardyReducer = createReducer(
   ),
   on(putClueOnScreen, (state, payload) => {
     const { id, categoryIndex, clueIndex } = payload.clueSelected;
+    const { clueSelectedCoordinates } = payload;
 
     //make sure they're in the same game
     if (state.game.jeopardyRound[categoryIndex].clues[clueIndex].id !== id)
@@ -94,6 +98,7 @@ export const jeopardyReducer = createReducer(
     newState.game.jeopardyRound[categoryIndex].clues[clueIndex] = {
       ...newState.game.jeopardyRound[categoryIndex].clues[clueIndex],
       onScreenCurrently: !currentStateOfDisplay,
+      clueCoordinates: clueSelectedCoordinates,
     };
 
     return newState;

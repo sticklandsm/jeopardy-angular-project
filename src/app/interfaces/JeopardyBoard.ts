@@ -9,6 +9,7 @@ export interface Clue {
   response: string;
   has_been_answered: boolean;
   onScreenCurrently: boolean;
+  clueCoordinates?: ClueSelectedCoordinates;
 }
 
 export interface ClueAnswered extends Clue {
@@ -22,6 +23,11 @@ export interface ClueAnswered extends Clue {
 export interface ClueSelected extends Clue {
   categoryIndex: number;
   clueIndex: number;
+}
+export interface ClueSelectedCoordinates {
+  x: number;
+  y: number;
+  width: number;
 }
 
 export interface Questions {

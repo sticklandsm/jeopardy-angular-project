@@ -1,11 +1,18 @@
 
-<div class="cell" (click)="onClickShowQuestion()">
-  <div>
+<div class="cell" (click)="onClickShowQuestion($event)" >
+  
     {{displayContent()}}
-  </div>
-  <div *ngIf="question.onScreenCurrently">
-    <app-open-card [clueText]="question.clue" (clickEmitter)="openCardClicked($event)"></app-open-card>
+  
+  <div *ngIf="question.onScreenCurrently" >
+    <app-open-card  [clueText]="question.clue" [value]="question.value" [styling]="question.clueCoordinates || { x: 0, y: 0, width: 0 }" (clickEmitter)="openCardClicked($event)">
+
+    </app-open-card>
   </div>
 </div>
+
+
+
+
+
 
 

@@ -1,18 +1,106 @@
 .fullscreen {
-  font-size: 5rem;
+  font-size: 3rem;
   text-align: center;
   font-family: 'ITC Korinna Std';
   color: white;
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
+  /* width: 100vw;
+  height: 100vh; */
+  /* position: fixed; */
   top: 0;
   left: 0;
-  transition: all 0.3s ease; /* Add this line for smooth transition */
   background-color: #010a78;
   line-height: normal;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  
+}
+
+.absolute{
+  position: absolute;
+}
+
+.cell {
+  text-shadow: 1px 1px 1px #000;
+  font-family: 'CatergoriesFont', sans-serif;
+  text-shadow: 0.6px 0.6px 0.6px #000;
+  height: 5rem;
+  font-size: 3rem; 
+  color: #d7a04b ;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  z-index: 1; 
+  transition: all 0.3s ease; 
+  background-color: #010a78; /* Set the background color of question cells */
+  border: 1px solid #000000; /* Set the border color and style */
+  cursor: pointer; /* Add a pointer cursor to indicate clickable cells */
+  line-height: normal;
+  
+}
+
+
+
+
+.tp-wrapper {
+  position: absolute;
+  -webkit-perspective: 800px;
+          perspective: 800px;
+}
+
+.tp-box {
+  position: absolute;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transform         : transform 1s;
+      -ms-transform         : transform 1s;
+          transform         : transform 1s;
+}
+.tp-box__side {
+   width: 100%;
+  height: 100%;
+  position: absolute;
+
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.tp-box__front {
+  color: #d7a04b ;
+  -webkit-transform : rotateX(0deg);
+  -ms-transform     : rotateX(0deg);
+  transform         : rotateX(0deg);
+}
+.tp-box__back {
+  background: #010a78;
+  color: white ;
+  -webkit-transform : rotateX(-180deg);
+  -ms-transform     : rotateX(-180deg);
+  transform         : rotateX(-180deg);
+  font-size: 5rem;
+  text-align: center;
+  font-family: 'ITC Korinna Std';
+  color: white;
+  /* width: 100vw;
+  height: 100vh; */
+  /* position: fixed; */
+  top: 0;
+  left: 0;
+  background-color: #010a78;
+  line-height: normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
 }

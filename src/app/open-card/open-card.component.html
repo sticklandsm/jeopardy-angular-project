@@ -1,6 +1,9 @@
-<div class="fullscreen" (click)="openCardClicked()">
-  <div>
-    {{clueText.toUpperCase()}}
+<div >
+  <div class="tp-box"  [@flipState]="flip" [style]="getStyling()" (click)="openCardClicked()">
+      <div class="tp-box__side tp-box__front"> {{'$' + value}}
+      </div>
+      <div class="tp-box__side tp-box__back">{{clueText.toUpperCase()}}
+      </div>
   </div>
 </div>
 

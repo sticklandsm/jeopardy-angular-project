@@ -17,19 +17,8 @@
   border: 1px solid #000000; /* Set the border color and style */
   cursor: pointer; /* Add a pointer cursor to indicate clickable cells */
   line-height: normal;
+  
 }
 
-.fullscreen {
-  font-size: 5rem;
-  text-align: center;
-  font-family: 'ITC Korinna Std';
-  color: white;
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  transition: all 0.3s ease; /* Add this line for smooth transition */
- 
-}
+
 

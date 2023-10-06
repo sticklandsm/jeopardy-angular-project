@@ -21,6 +21,7 @@
   background-color: #010a78;
   border: 1px solid #000000; /* Set the background color of category and question cells */
   height: 5rem;
+  position: relative;
 }
 
 

@@ -14,7 +14,8 @@ import { GameComponent } from './game/game.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import { jeopardyReducer } from './state/current-game.reducer';
+import { currentGameReducer } from './state/current-game/current-game.reducer';
+import { currentPlayerReducer } from './state/current-player/current-player.reducer';
 import { ContestantComponent } from './contestant/contestant.component';
 import { WebsocketService } from './web-socket.service';
 import { ResponsePassService } from './response-pass.service';
@@ -45,7 +46,10 @@ import { OpenCardComponent } from './open-card/open-card.component';
     Ng2FittextModule,
     HttpClientModule,
     FormsModule,
-    StoreModule.forRoot({ currentGame: jeopardyReducer }),
+    StoreModule.forRoot({
+      currentGame: currentGameReducer,
+      currentPlayer: currentPlayerReducer,
+    }),
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
