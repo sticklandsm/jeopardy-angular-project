@@ -11,16 +11,23 @@ import {
 export class ResponsePassService {
   constructor() {}
 
-  private dataSubject = new Subject<ClueAnswered>();
+  private dataSubject = new Subject<{
+    clueAnswered: ClueAnswered;
+    event: string;
+  }>();
   data$ = this.dataSubject.asObservable();
 
   sendQuestion(
     question: ClueAnswered,
-    clueSelectedCoordinates: ClueSelectedCoordinates
+    clueSelectedCoordinates: ClueSelectedCoordinates,
+    event: string
   ) {
     this.dataSubject.next({
-      ...question,
-      clueCoordinates: clueSelectedCoordinates,
+      clueAnswered: {
+        ...question,
+        clueCoordinates: clueSelectedCoordinates,
+      },
+      event,
     });
   }
 }

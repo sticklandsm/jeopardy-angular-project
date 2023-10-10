@@ -1,14 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 import { setCurrentPlayer } from './current-player.action';
+import { PlayerScore } from 'src/app/interfaces/PlayerScores';
 
-export interface CurrentPlayer {
-  name: string;
-  playerNumber: number;
-}
-
-export const initialState: CurrentPlayer = {
+export const initialState: PlayerScore = {
   name: '',
-  playerNumber: 0,
+  id: 0,
+  score: 0,
+  game_id: 0,
 };
 
 export const currentPlayerReducer = createReducer(

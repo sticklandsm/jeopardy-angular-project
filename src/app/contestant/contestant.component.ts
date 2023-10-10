@@ -7,5 +7,10 @@ import { PlayerScore } from '../interfaces/PlayerScores';
   styleUrls: ['./contestant.component.css'],
 })
 export class ContestantComponent {
-  @Input() namesAndScores: PlayerScore = { id: 0, name: '', score: 0 };
+  @Input() namesAndScores: PlayerScore = {
+    id: 0,
+    name: '',
+    score: 0,
+    game_id: 0,
+  };
 }

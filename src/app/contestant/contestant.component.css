@@ -15,3 +15,8 @@
   background-color: #010a78; /* Set the background color of question cells */
   border: 1px solid #000000; /* Set the border color and style */
 }
+
+img{
+  width: 300px;
+  height:auto
+}

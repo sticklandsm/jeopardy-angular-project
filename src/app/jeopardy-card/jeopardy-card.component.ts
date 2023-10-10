@@ -62,7 +62,8 @@ export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
           clueIndex: this.clueIndex,
           // onScreenCurrently: true,
         },
-        { x: 0, y: 0, width: 0 }
+        { x: 0, y: 0, width: 0 },
+        'clueHasBeenAnswered'
       );
     });
   }
@@ -103,7 +104,7 @@ export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
         ...this.question,
         playerId: 1,
         playerName: 'Sean',
-        responseCorrect: true,
+        responseCorrect: false,
         categoryIndex: this.categoryIndex,
         clueIndex: this.clueIndex,
       },
@@ -111,11 +112,10 @@ export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
         x: elementDetails.top,
         y: elementDetails.left,
         width: elementDetails.width,
-      }
+      },
+      'clueHasBeenClicked'
     );
 
     // this.databaseService.clueHasBeenAnswered(this.question.id).subscribe();
   }
 }
-
-//try to work out how to make the lower component register changes to it's inputs better. Maybe through Renderer?

@@ -1,5 +1,5 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { CurrentPlayer } from './current-player.reducer';
+import { PlayerScore } from 'src/app/interfaces/PlayerScores';
 
 export const selectCurrentPlayer =
-  createFeatureSelector<CurrentPlayer>('currentPlayer');
+  createFeatureSelector<PlayerScore>('currentPlayer');

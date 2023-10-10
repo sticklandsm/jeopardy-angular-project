@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { CurrentPlayer } from './current-player.reducer';
+import { PlayerScore } from 'src/app/interfaces/PlayerScores';
 
 export const setCurrentPlayer = createAction(
   '[Jeopardy] Set the current plater',
-  props<{ currentPlayer: CurrentPlayer }>()
+  props<{ currentPlayer: PlayerScore }>()
 );

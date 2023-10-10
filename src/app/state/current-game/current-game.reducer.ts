@@ -8,10 +8,11 @@ import {
   markClueAnswered,
   putClueOnScreen,
 } from './current-game.action';
+import { PlayerScore } from 'src/app/interfaces/PlayerScores';
 
 export interface CurrentGame {
   game: FullGame;
-  playerScores: { playerName: string; score: number }[];
+  playerScores: PlayerScore[];
 }
 
 export const initialState: CurrentGame = {
@@ -62,7 +63,7 @@ export const currentGameReducer = createReducer(
         newState.game.jeopardyRound[categoryIndex].clues[clueIndex];
 
       const playerToUpdate = newState.playerScores.find(
-        (player) => player.playerName === playerName
+        (player) => player.name === playerName
       );
 
       if (playerToUpdate) {
