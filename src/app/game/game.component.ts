@@ -15,6 +15,7 @@ import { WebsocketService } from '../web-socket.service';
 import { ResponsePassService } from '../response-pass.service';
 import { selectCurrentPlayer } from '../state/current-player/current-player.selectors';
 import { setCurrentPlayer } from '../state/current-player/current-player.action';
+import { TimerService } from '../timer.service';
 
 @Component({
   selector: 'app-game',
@@ -125,9 +126,8 @@ export class GameComponent implements OnInit {
         content: playerResponse,
       });
     });
-
+    //Get a jeopardy game form server based on game Id
     this.jeopardyService.getJeopardyGame(this.gameId).subscribe({
-      //Need to work out logic to update scores, Send WS messages to everyone for the scores,
       next: ({ game, playerScores }) => {
         this.store.dispatch(
           setJeopardyGame({

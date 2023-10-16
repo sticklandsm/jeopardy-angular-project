@@ -16,6 +16,7 @@ import {
   transition,
   animate,
 } from '@angular/animations';
+import { TimerService } from '../timer.service';
 
 @Component({
   selector: 'app-open-card',
@@ -55,12 +56,15 @@ export class OpenCardComponent implements AfterViewChecked, OnInit, OnDestroy {
   @Output() timeOutEmitter = new EventEmitter<boolean>();
   timer: any;
 
+  constructor(private timerService: TimerService) {}
+
   flip = 'inactive';
 
   ngOnDestroy(): void {}
 
   ngOnInit(): void {
-    this.setTimeOutinSeconds(5);
+    // this.setTimeOutinSeconds(5);
+    this.timerService.startTimer(1);
 
     //figure out a way to make it so the above only runs for the client who clicked the clue
     //That way you can get only this client to send out a WS when shit happens.
@@ -77,20 +81,18 @@ export class OpenCardComponent implements AfterViewChecked, OnInit, OnDestroy {
     });
   }
 
-  setTimeOutinSeconds(timeInSeconds: number) {
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-    ///Research setting up a timer service
-    this.timer = setTimeout(() => {
-      this.timeOutEmitter.emit(true);
-    }, timeInSeconds * 1000);
-  }
+  // setTimeOutinSeconds(timeInSeconds: number) {
+  //   if (this.timer) {
+  //     clearTimeout(this.timer);
+  //   }
+  //   ///Research setting up a timer service
+  //   this.timer = setTimeout(() => {
+  //     this.timeOutEmitter.emit(true);
+  //   }, timeInSeconds * 1000);
+  // }
 
   openCardClicked() {
-    // this.setTimeOutinSeconds(20);
-    clearTimeout(this.timer);
-    console.log('timer cleared', this.timer);
+    this.timerService.startTimer(10);
     this.clickEmitter.emit('sean');
   }
 

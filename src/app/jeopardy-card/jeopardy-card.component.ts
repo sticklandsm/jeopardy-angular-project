@@ -12,13 +12,15 @@ import { Store } from '@ngrx/store';
 import { ResponsePassService } from '../response-pass.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
+import { TimerService } from '../timer.service';
+import { first, take } from 'rxjs';
 
 @Component({
   selector: 'app-jeopardy-card',
   templateUrl: './jeopardy-card.component.html',
   styleUrls: ['./jeopardy-card.component.css'],
 })
-export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
+export class JeopardyCardComponent implements OnInit {
   @Input() categoryIndex: number = 0;
   @Input() clueIndex: number = 0;
   @Input() question: Clue = {} as Clue;
@@ -29,27 +31,15 @@ export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
 
   constructor(
     private responsePassService: ResponsePassService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private timerService: TimerService
   ) {}
 
   openCardClicked(playerName: string) {
+    //add logic to stop the timeout of open card using websockets.
     this.openEnterResponseModal();
   }
-  openCardTimedOut(itTimedOut: boolean) {
-    if (itTimedOut)
-      this.responsePassService.sendQuestion(
-        {
-          ...this.question,
-          playerId: 1,
-          playerName: 'null',
-          responseCorrect: true,
-          categoryIndex: this.categoryIndex,
-          clueIndex: this.clueIndex,
-        },
-        { x: 0, y: 0, width: 0 },
-        'clueHasTimedOut'
-      );
-  }
+  openCardTimedOut(itTimedOut: boolean) {}
 
   openEnterResponseModal(): void {
     const modalData = {
@@ -86,10 +76,6 @@ export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
 
   ngOnInit(): void {}
 
-  ngOnChanges(changes: SimpleChanges): void {}
-
-  ngDoCheck(): void {}
-
   displayContent(): string {
     if (this.question.has_been_answered) return '';
     if (this.question) return '$' + this.question.value;
@@ -99,6 +85,23 @@ export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
   onClickShowQuestion({ target }: MouseEvent) {
     if (this.question.onScreenCurrently) return;
     if (this.question.has_been_answered) return;
+
+    this.timerService.timerObservable$.pipe(take(1)).subscribe((itTimedOut) => {
+      if (itTimedOut) {
+        this.responsePassService.sendQuestion(
+          {
+            ...this.question,
+            playerId: 1,
+            playerName: 'null',
+            responseCorrect: true,
+            categoryIndex: this.categoryIndex,
+            clueIndex: this.clueIndex,
+          },
+          { x: 0, y: 0, width: 0 },
+          'clueHasTimedOut'
+        );
+      }
+    });
 
     const elementDetails = (target as Element).getBoundingClientRect();
 
