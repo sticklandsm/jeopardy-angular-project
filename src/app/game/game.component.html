@@ -4,7 +4,7 @@
 <div class="container">
   <div class="playerScores">
     <div *ngFor="let playerScore of playerScores">
-    <app-contestant [namesAndScores]="playerScore"></app-contestant>
+    <app-contestant [thisIsYourPlayer]="playerScore.name === currentPlayerName" [namesAndScores]="playerScore"></app-contestant>
     </div>
   </div>
 </div>

@@ -4,7 +4,7 @@
     {{displayContent()}}
   
   <div *ngIf="question.onScreenCurrently" >
-    <app-open-card  [clueText]="question.clue" [value]="question.value" [styling]="question.clueCoordinates || { x: 0, y: 0, width: 0 }" (clickEmitter)="openCardClicked($event)">
+    <app-open-card  [clueText]="question.clue" [value]="question.value" [styling]="question.clueCoordinates || { x: 0, y: 0, width: 0 }" (clickEmitter)="openCardClicked($event)" (timeOutEmitter)="openCardTimedOut($event)">
 
     </app-open-card>
   </div>

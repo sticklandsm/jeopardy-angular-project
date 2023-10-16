@@ -13,4 +13,5 @@ export class ContestantComponent {
     score: 0,
     game_id: 0,
   };
+  @Input() thisIsYourPlayer = false;
 }

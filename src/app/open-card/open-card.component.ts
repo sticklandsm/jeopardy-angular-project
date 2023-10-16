@@ -4,6 +4,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
@@ -46,17 +47,51 @@ import {
     ]),
   ],
 })
-export class OpenCardComponent implements AfterViewChecked, OnInit {
+export class OpenCardComponent implements AfterViewChecked, OnInit, OnDestroy {
   @Input() clueText: string = '';
   @Input() value: number = 0;
   @Input() styling: ClueSelectedCoordinates = { x: 0, y: 0, width: 0 };
+  @Output() clickEmitter = new EventEmitter<string>();
+  @Output() timeOutEmitter = new EventEmitter<boolean>();
+  timer: any;
+
   flip = 'inactive';
 
-  ngOnInit(): void {}
+  ngOnDestroy(): void {}
+
+  ngOnInit(): void {
+    this.setTimeOutinSeconds(5);
+
+    //figure out a way to make it so the above only runs for the client who clicked the clue
+    //That way you can get only this client to send out a WS when shit happens.
+    //Problem when others try to answer a clue that another client opened.
+
+    //Or something with name checking???
+    //communication with server, get the server to do the counting.
+
+    //Need to create a service that will reset the timer in this component. That can be called from the websockets in Game.
+  }
   ngAfterViewChecked(): void {
     setTimeout(() => {
       if (this.flip === 'inactive') this.flip = 'active';
     });
+  }
+
+  setTimeOutinSeconds(timeInSeconds: number) {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+    ///Research setting up a timer service
+    this.timer = setTimeout(() => {
+      this.timeOutEmitter.emit(true);
+    }, timeInSeconds * 1000);
+  }
+
+  openCardClicked() {
+    // this.setTimeOutinSeconds(20);
+    clearTimeout(this.timer);
+    console.log('timer cleared', this.timer);
+    this.clickEmitter.emit('sean');
   }
 
   getStyling() {
@@ -67,11 +102,5 @@ export class OpenCardComponent implements AfterViewChecked, OnInit {
       width: this.styling.width + 'px',
       border: '1px solid #000000',
     };
-  }
-
-  @Output() clickEmitter = new EventEmitter<string>();
-
-  openCardClicked() {
-    this.clickEmitter.emit('sean');
   }
 }

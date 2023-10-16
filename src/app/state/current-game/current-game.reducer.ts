@@ -6,7 +6,7 @@ import {
 import {
   setJeopardyGame,
   markClueAnswered,
-  putClueOnScreen,
+  toggleClueOnScreen,
 } from './current-game.action';
 import { PlayerScore } from 'src/app/interfaces/PlayerScores';
 
@@ -53,6 +53,7 @@ export const currentGameReducer = createReducer(
       } = payload.ClueAnswered;
 
       //make sure they're in the same game
+
       if (state.game.jeopardyRound[categoryIndex].clues[clueIndex].id !== id)
         return state;
 
@@ -62,25 +63,25 @@ export const currentGameReducer = createReducer(
       let { value } =
         newState.game.jeopardyRound[categoryIndex].clues[clueIndex];
 
+      newState.game.jeopardyRound[categoryIndex].clues[
+        clueIndex
+      ].has_been_answered = true;
+
       const playerToUpdate = newState.playerScores.find(
         (player) => player.name === playerName
       );
 
       if (playerToUpdate) {
-        playerToUpdate.score += value;
+        playerToUpdate.score += value * (Number(responseCorrect) - 1 || 1);
       }
 
       //update the value of the card to 0, and mark it as answered
       // newState.game.jeopardyRound[categoryIndex].clues[clueIndex].value = 0;
 
-      newState.game.jeopardyRound[categoryIndex].clues[
-        clueIndex
-      ].has_been_answered = true;
-
       return newState;
     }
   ),
-  on(putClueOnScreen, (state, payload) => {
+  on(toggleClueOnScreen, (state, payload) => {
     const { id, categoryIndex, clueIndex } = payload.clueSelected;
     const { clueSelectedCoordinates } = payload;
 

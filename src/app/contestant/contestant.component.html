@@ -1,4 +1,7 @@
 <img src="../../assets/images/{{namesAndScores.name === 'guy incognito'? 'male01mus.png' : 'male01.svg'}}" alt="male">
-<div class="cell">${{namesAndScores.score}}</div>
-<div><div class="cell">{{namesAndScores.name}}</div></div>
+<div class="cell">${{namesAndScores.score }} </div>
+<div>
+  <div class="cell">{{namesAndScores.name}}</div>
+  <div class="cell">{{thisIsYourPlayer? " (You)" : ""}}</div>
+</div>
 

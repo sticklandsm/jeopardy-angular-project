@@ -20,7 +20,7 @@ export const markClueAnswered = createAction(
   }>()
 );
 
-export const putClueOnScreen = createAction(
+export const toggleClueOnScreen = createAction(
   '[Jeopardy] Put the Clue on Screen',
   props<{
     clueSelected: ClueSelected;

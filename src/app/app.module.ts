@@ -20,7 +20,7 @@ import { ContestantComponent } from './contestant/contestant.component';
 import { WebsocketService } from './web-socket.service';
 import { ResponsePassService } from './response-pass.service';
 import { ModalComponent } from './modal/modal.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { OpenCardComponent } from './open-card/open-card.component';

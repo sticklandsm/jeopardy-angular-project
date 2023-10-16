@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { selectCurrentGame } from '../state/current-game/current-game.selectors';
 import {
   markClueAnswered,
-  putClueOnScreen,
+  toggleClueOnScreen,
   setJeopardyGame,
 } from '../state/current-game/current-game.action';
 import { Store } from '@ngrx/store';
@@ -58,16 +58,11 @@ export class GameComponent implements OnInit {
         }
 
         //handles clues being answered
-        //Should probably split this into 2 things, one for showing the card, one for judging if the answer is correct
         this.received.push(receivedData.content);
 
-        if (
-          receivedData.content.event === 'clueHasBeenClicked' ||
-          (receivedData.content.event === 'clueHasBeenAnswered' &&
-            receivedData.content.clueAnswered.responseCorrect)
-        ) {
+        if (receivedData.content.event === 'clueHasBeenClicked') {
           this.store.dispatch(
-            putClueOnScreen({
+            toggleClueOnScreen({
               clueSelected: receivedData.content.clueAnswered,
               clueSelectedCoordinates: receivedData.content.clueAnswered
                 .clueCoordinates || {
@@ -78,14 +73,28 @@ export class GameComponent implements OnInit {
             })
           );
 
-          if (receivedData.content.event === 'clueHasBeenClicked') {
-            this.store.dispatch(
-              markClueAnswered({
-                ClueAnswered: receivedData.content.clueAnswered,
-              })
-            );
-          }
-
+          return;
+        }
+        if (
+          receivedData.content.event === 'clueHasBeenAnswered' ||
+          receivedData.content.event === 'clueHasTimedOut'
+        ) {
+          this.store.dispatch(
+            markClueAnswered({
+              ClueAnswered: receivedData.content.clueAnswered,
+            })
+          );
+          this.store.dispatch(
+            toggleClueOnScreen({
+              clueSelected: receivedData.content.clueAnswered,
+              clueSelectedCoordinates: receivedData.content.clueAnswered
+                .clueCoordinates || {
+                x: 0,
+                y: 0,
+                width: 0,
+              },
+            })
+          );
           return;
         }
       }
@@ -118,13 +127,7 @@ export class GameComponent implements OnInit {
     });
 
     this.jeopardyService.getJeopardyGame(this.gameId).subscribe({
-      //When the game loads, it needs to send a WS to everyone letting them know a new player has entered, and their details
-      //But how would it know who is already in the game???
-      //Does it need to use the database?
-      //database would definitely keep the scores. But does it keep who is currently playing right now?
-      //Not exactly. On boot it sends a message to everyone saying there's a new user. Other players send back a thing with their users
-      //Send a response with a 'currentUsers' tag from people already playing.
-
+      //Need to work out logic to update scores, Send WS messages to everyone for the scores,
       next: ({ game, playerScores }) => {
         this.store.dispatch(
           setJeopardyGame({

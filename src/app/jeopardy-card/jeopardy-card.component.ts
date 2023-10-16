@@ -10,7 +10,7 @@ import { Clue } from '../interfaces/JeopardyBoard';
 import { DatabaseService } from '../database-service.service';
 import { Store } from '@ngrx/store';
 import { ResponsePassService } from '../response-pass.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
 
 @Component({
@@ -31,8 +31,24 @@ export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
     private responsePassService: ResponsePassService,
     private dialog: MatDialog
   ) {}
+
   openCardClicked(playerName: string) {
     this.openEnterResponseModal();
+  }
+  openCardTimedOut(itTimedOut: boolean) {
+    if (itTimedOut)
+      this.responsePassService.sendQuestion(
+        {
+          ...this.question,
+          playerId: 1,
+          playerName: 'null',
+          responseCorrect: true,
+          categoryIndex: this.categoryIndex,
+          clueIndex: this.clueIndex,
+        },
+        { x: 0, y: 0, width: 0 },
+        'clueHasTimedOut'
+      );
   }
 
   openEnterResponseModal(): void {
@@ -76,26 +92,15 @@ export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
 
   displayContent(): string {
     if (this.question.has_been_answered) return '';
-    if (this.question.value) return '$' + this.question.value;
+    if (this.question) return '$' + this.question.value;
     return '';
   }
 
   onClickShowQuestion({ target }: MouseEvent) {
+    if (this.question.onScreenCurrently) return;
     if (this.question.has_been_answered) return;
 
     const elementDetails = (target as Element).getBoundingClientRect();
-
-    //commenting this out in order to try to get the web sockets to handle more of the stuff.
-    // this.store.dispatch(
-    //   putClueOnScreen({
-    //     clueSelected: {
-    //       ...this.question,
-    //       categoryIndex: this.categoryIndex,
-    //       clueIndex: this.clueIndex,
-    //       onScreenCurrently: true,
-    //     },
-    //   })
-    // );
 
     console.log('What is ', this.question.response, '?');
 
@@ -115,6 +120,8 @@ export class JeopardyCardComponent implements OnChanges, OnInit, DoCheck {
       },
       'clueHasBeenClicked'
     );
+
+    //uncomment the below to have it start ticking answers off as answered
 
     // this.databaseService.clueHasBeenAnswered(this.question.id).subscribe();
   }

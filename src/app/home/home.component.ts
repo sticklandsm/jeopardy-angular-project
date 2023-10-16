@@ -33,8 +33,6 @@ export class HomeComponent {
     });
 
     dialogRef.afterClosed().subscribe((responseGiven) => {
-      console.log('your name is: ', responseGiven);
-
       //Every client should take care of their own score as in plus and minusing and sending it to the back end.
       //Or perhaps it just does a broadcast through WS.
       //get the scores to be sent through initially in the getGame. Then update it all using WS.
