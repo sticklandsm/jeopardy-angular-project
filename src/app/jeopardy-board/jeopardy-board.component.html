@@ -1,5 +1,5 @@
 <div class="jeopardy-board" [@boardAppear]="contentLoaded ? 'contentIsLoaded' : 'contentIsntLoaded'">
   <div  *ngFor="let category of categories; index as categoryIndex">
-    <app-jeopardy-category class="" [category]="category" [categoryIndex]="categoryIndex"></app-jeopardy-category>
+    <app-jeopardy-category [currentPlayerName]="currentPlayerName" class="" [category]="category" [categoryIndex]="categoryIndex"></app-jeopardy-category>
   </div>
 </div>

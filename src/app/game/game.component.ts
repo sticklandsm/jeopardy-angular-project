@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FullGame, ClueAnswered } from '../interfaces/JeopardyBoard';
 import emptyData from '../dummyData/emptyData.json';
 import { DatabaseService } from '../database-service.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { selectCurrentGame } from '../state/current-game/current-game.selectors';
 import {
+  closeClueOnScreen,
   markClueAnswered,
-  toggleClueOnScreen,
+  openClueOnScreen,
   setJeopardyGame,
 } from '../state/current-game/current-game.action';
 import { Store } from '@ngrx/store';
@@ -15,7 +16,8 @@ import { WebsocketService } from '../web-socket.service';
 import { ResponsePassService } from '../response-pass.service';
 import { selectCurrentPlayer } from '../state/current-player/current-player.selectors';
 import { setCurrentPlayer } from '../state/current-player/current-player.action';
-import { TimerService } from '../timer.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-game',
@@ -40,14 +42,16 @@ export class GameComponent implements OnInit {
     private route: ActivatedRoute,
     private store: Store,
     private responsePassService: ResponsePassService,
-    private websocketService: WebsocketService
+    private websocketService: WebsocketService,
+    private router: Router,
+    private dialog: MatDialog
   ) {
     websocketService.messages.subscribe(
       //What to do when it gets a websocket message from server:
       (receivedData: {
         source: string;
         content: {
-          clueAnswered: ClueAnswered | any;
+          clueAnswered: ClueAnswered;
           event: string;
         };
       }) => {
@@ -63,7 +67,7 @@ export class GameComponent implements OnInit {
 
         if (receivedData.content.event === 'clueHasBeenClicked') {
           this.store.dispatch(
-            toggleClueOnScreen({
+            openClueOnScreen({
               clueSelected: receivedData.content.clueAnswered,
               clueSelectedCoordinates: receivedData.content.clueAnswered
                 .clueCoordinates || {
@@ -85,8 +89,9 @@ export class GameComponent implements OnInit {
               ClueAnswered: receivedData.content.clueAnswered,
             })
           );
+          if (!receivedData.content.clueAnswered.responseCorrect) return;
           this.store.dispatch(
-            toggleClueOnScreen({
+            closeClueOnScreen({
               clueSelected: receivedData.content.clueAnswered,
               clueSelectedCoordinates: receivedData.content.clueAnswered
                 .clueCoordinates || {
@@ -106,9 +111,31 @@ export class GameComponent implements OnInit {
     });
   }
 
+  openEnterNameModal(): void {
+    const modalData = {
+      title: 'Enter Name',
+      content: '',
+      placeholder: '',
+    };
+
+    const dialogRef = this.dialog.open(ModalComponent, {
+      width: '400px',
+      data: modalData,
+    });
+
+    dialogRef.afterClosed().subscribe((responseGiven) => {
+      localStorage.setItem('name', responseGiven);
+    });
+  }
+
   async ngOnInit() {
+    if (!localStorage.getItem('name')) {
+      this.openEnterNameModal();
+    }
+
     this.store.select(selectCurrentPlayer).subscribe((state) => {
-      this.currentPlayerName = state.name || 'Guy Incognito';
+      this.currentPlayerName =
+        state.name || localStorage.getItem('name') || 'Guy Incognito';
     });
 
     this.jeopardyService
@@ -116,6 +143,9 @@ export class GameComponent implements OnInit {
       .subscribe({
         next: (playerScore) => {
           this.store.dispatch(setCurrentPlayer({ currentPlayer: playerScore }));
+        },
+        error: (error) => {
+          console.error('Error retreiving player: ', error);
         },
       });
 
@@ -145,7 +175,9 @@ export class GameComponent implements OnInit {
       },
 
       error: (error) => {
-        console.error(error);
+        alert('Does that game exist? ' + error.statusText);
+        console.error(error.statusText);
+        this.router.navigate(['/']);
       },
     });
   }

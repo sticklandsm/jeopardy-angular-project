@@ -59,22 +59,17 @@ export class OpenCardComponent implements AfterViewChecked, OnInit, OnDestroy {
   constructor(private timerService: TimerService) {}
 
   flip = 'inactive';
+  beenActivated = false;
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    console.log('open card destroyed');
+  }
 
   ngOnInit(): void {
-    // this.setTimeOutinSeconds(5);
-    this.timerService.startTimer(1);
-
-    //figure out a way to make it so the above only runs for the client who clicked the clue
-    //That way you can get only this client to send out a WS when shit happens.
-    //Problem when others try to answer a clue that another client opened.
-
-    //Or something with name checking???
-    //communication with server, get the server to do the counting.
-
-    //Need to create a service that will reset the timer in this component. That can be called from the websockets in Game.
+    console.log('open card inititialized?', this.flip);
+    this.timerService.startTimer(5);
   }
+
   ngAfterViewChecked(): void {
     setTimeout(() => {
       if (this.flip === 'inactive') this.flip = 'active';

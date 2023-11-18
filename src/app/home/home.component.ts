@@ -38,7 +38,7 @@ export class HomeComponent {
       //get the scores to be sent through initially in the getGame. Then update it all using WS.
       //But we do need to know who we are in state to send the appropriate WS clicks etc.
       //Need to work out if
-
+      localStorage.setItem('name', responseGiven);
       this.store.dispatch(
         setCurrentPlayer({
           currentPlayer: { name: responseGiven, id: 0, score: 0, game_id: 0 },

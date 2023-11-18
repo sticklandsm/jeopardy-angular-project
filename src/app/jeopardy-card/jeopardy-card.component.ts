@@ -13,7 +13,8 @@ import { ResponsePassService } from '../response-pass.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
 import { TimerService } from '../timer.service';
-import { first, take } from 'rxjs';
+import { first, take, timeout } from 'rxjs';
+import { selectCurrentPlayer } from '../state/current-player/current-player.selectors';
 
 @Component({
   selector: 'app-jeopardy-card',
@@ -25,6 +26,7 @@ export class JeopardyCardComponent implements OnInit {
   @Input() clueIndex: number = 0;
   @Input() question: Clue = {} as Clue;
   @Input() category: string = '';
+  @Input() currentPlayerName: string = '';
 
   responseGiven = '';
   isQuestionVisible: boolean = false;
@@ -36,10 +38,16 @@ export class JeopardyCardComponent implements OnInit {
   ) {}
 
   openCardClicked(playerName: string) {
-    //add logic to stop the timeout of open card using websockets.
     this.openEnterResponseModal();
+    setTimeout(() => {
+      const timeOutSound = new Audio('../../assets/sounds/times-up.mp3');
+      timeOutSound.play();
+      this.dialog.closeAll();
+    }, 5000);
   }
-  openCardTimedOut(itTimedOut: boolean) {}
+  openCardTimedOut(itTimedOut: boolean) {
+    console.log('opencardtimedout');
+  }
 
   openEnterResponseModal(): void {
     const modalData = {
@@ -53,20 +61,18 @@ export class JeopardyCardComponent implements OnInit {
       data: modalData,
     });
 
+    //after the dialogue asking for an answer has closed.
     dialogRef.afterClosed().subscribe((responseGiven) => {
-      this.responseGiven = responseGiven;
-
       this.responsePassService.sendQuestion(
         {
           ...this.question,
           playerId: 1,
-          playerName: 'Sean',
+          playerName: this.currentPlayerName,
           responseCorrect:
             this.question.response.toLowerCase() ===
-              (responseGiven || '').toLowerCase() || responseGiven === 'pass',
+            (responseGiven || '').toLowerCase(),
           categoryIndex: this.categoryIndex,
           clueIndex: this.clueIndex,
-          // onScreenCurrently: true,
         },
         { x: 0, y: 0, width: 0 },
         'clueHasBeenAnswered'
@@ -88,6 +94,8 @@ export class JeopardyCardComponent implements OnInit {
 
     this.timerService.timerObservable$.pipe(take(1)).subscribe((itTimedOut) => {
       if (itTimedOut) {
+        const timeOutSound = new Audio('../../assets/sounds/times-up.mp3');
+        timeOutSound.play();
         this.responsePassService.sendQuestion(
           {
             ...this.question,
@@ -111,7 +119,7 @@ export class JeopardyCardComponent implements OnInit {
       {
         ...this.question,
         playerId: 1,
-        playerName: 'Sean',
+        playerName: 'null',
         responseCorrect: false,
         categoryIndex: this.categoryIndex,
         clueIndex: this.clueIndex,

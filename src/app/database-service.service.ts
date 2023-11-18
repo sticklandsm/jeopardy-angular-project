@@ -22,7 +22,7 @@ export class DatabaseService {
         playerScores: PlayerScore[];
       }>;
     } catch (error) {
-      console.error(error);
+      console.error('error retreiving game', error);
       return new Observable<{ game: FullGame; playerScores: PlayerScore[] }>();
     }
   }

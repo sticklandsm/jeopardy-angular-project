@@ -9,6 +9,7 @@ import { Category } from '../interfaces/JeopardyBoard';
 export class JeopardyCategoryComponent implements OnChanges {
   @Input() categoryIndex: number = 0;
   @Input() category: Category = { categoryName: '', clues: [] };
+  @Input() currentPlayerName: string = '';
 
   ngOnChanges(changes: SimpleChanges): void {}
 

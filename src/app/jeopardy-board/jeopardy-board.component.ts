@@ -36,6 +36,7 @@ import { SplashScreenStateService } from '../splash-screen-state.service';
 })
 export class JeopardyBoardComponent implements OnChanges {
   @Input() categories: Category[] = [];
+  @Input() currentPlayerName: string = '';
   contentLoaded: boolean = false;
   ngOnChanges(changes: SimpleChanges): void {
     if (this.categories[0].categoryName) {

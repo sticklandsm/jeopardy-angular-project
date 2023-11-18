@@ -20,8 +20,16 @@ export const markClueAnswered = createAction(
   }>()
 );
 
-export const toggleClueOnScreen = createAction(
-  '[Jeopardy] Put the Clue on Screen',
+export const openClueOnScreen = createAction(
+  '[Jeopardy] Show the Clue on Screen',
+  props<{
+    clueSelected: ClueSelected;
+    clueSelectedCoordinates: ClueSelectedCoordinates;
+  }>()
+);
+
+export const closeClueOnScreen = createAction(
+  '[Jeopardy] Remove the Clue on Screen',
   props<{
     clueSelected: ClueSelected;
     clueSelectedCoordinates: ClueSelectedCoordinates;

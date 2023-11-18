@@ -3,7 +3,7 @@
 </div>
 
   <div *ngFor="let clue of category.clues; index as clueIndex" >
-      <app-jeopardy-card [question]="clue" [category]="category.categoryName" [clueIndex]="clueIndex" [categoryIndex]="categoryIndex"></app-jeopardy-card>
+      <app-jeopardy-card [currentPlayerName]="currentPlayerName" [question]="clue" [category]="category.categoryName" [clueIndex]="clueIndex" [categoryIndex]="categoryIndex"></app-jeopardy-card>
   </div>
 
 

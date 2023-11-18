@@ -6,7 +6,8 @@ import {
 import {
   setJeopardyGame,
   markClueAnswered,
-  toggleClueOnScreen,
+  openClueOnScreen,
+  closeClueOnScreen,
 } from './current-game.action';
 import { PlayerScore } from 'src/app/interfaces/PlayerScores';
 
@@ -63,10 +64,6 @@ export const currentGameReducer = createReducer(
       let { value } =
         newState.game.jeopardyRound[categoryIndex].clues[clueIndex];
 
-      newState.game.jeopardyRound[categoryIndex].clues[
-        clueIndex
-      ].has_been_answered = true;
-
       const playerToUpdate = newState.playerScores.find(
         (player) => player.name === playerName
       );
@@ -78,10 +75,11 @@ export const currentGameReducer = createReducer(
       //update the value of the card to 0, and mark it as answered
       // newState.game.jeopardyRound[categoryIndex].clues[clueIndex].value = 0;
 
-      return newState;
+      return { ...state, playerScores: newState.playerScores };
     }
   ),
-  on(toggleClueOnScreen, (state, payload) => {
+  on(openClueOnScreen, (state, payload) => {
+    console.log('opening clue');
     const { id, categoryIndex, clueIndex } = payload.clueSelected;
     const { clueSelectedCoordinates } = payload;
 
@@ -99,7 +97,36 @@ export const currentGameReducer = createReducer(
 
     newState.game.jeopardyRound[categoryIndex].clues[clueIndex] = {
       ...newState.game.jeopardyRound[categoryIndex].clues[clueIndex],
-      onScreenCurrently: !currentStateOfDisplay,
+      onScreenCurrently: true,
+      clueCoordinates: clueSelectedCoordinates,
+    };
+
+    return newState;
+  }),
+  on(closeClueOnScreen, (state, payload) => {
+    console.log('closing clue');
+    const { id, categoryIndex, clueIndex } = payload.clueSelected;
+    const { clueSelectedCoordinates } = payload;
+
+    //make sure they're in the same game
+    if (state.game.jeopardyRound[categoryIndex].clues[clueIndex].id !== id)
+      return state;
+
+    //create newState this way because doing it through Splice didn't work for some reason.
+    const newState = JSON.parse(JSON.stringify(state)) as CurrentGame;
+
+    newState.game.jeopardyRound[categoryIndex].clues[
+      clueIndex
+    ].has_been_answered = true;
+
+    //making it toggle between on screen and off screen.
+    const currentStateOfDisplay =
+      newState.game.jeopardyRound[categoryIndex].clues[clueIndex]
+        .onScreenCurrently;
+
+    newState.game.jeopardyRound[categoryIndex].clues[clueIndex] = {
+      ...newState.game.jeopardyRound[categoryIndex].clues[clueIndex],
+      onScreenCurrently: false,
       clueCoordinates: clueSelectedCoordinates,
     };
 
