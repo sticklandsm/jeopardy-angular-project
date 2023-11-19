@@ -30,6 +30,7 @@ export class JeopardyCardComponent implements OnInit {
 
   responseGiven = '';
   isQuestionVisible: boolean = false;
+  hasTriedToAnswer: boolean = false;
 
   constructor(
     private responsePassService: ResponsePassService,
@@ -38,6 +39,10 @@ export class JeopardyCardComponent implements OnInit {
   ) {}
 
   openCardClicked(playerName: string) {
+    if (this.hasTriedToAnswer) {
+      return;
+    }
+    this.hasTriedToAnswer = true;
     this.openEnterResponseModal();
     setTimeout(() => {
       const timeOutSound = new Audio('../../assets/sounds/times-up.mp3');
@@ -46,7 +51,7 @@ export class JeopardyCardComponent implements OnInit {
     }, 5000);
   }
   openCardTimedOut(itTimedOut: boolean) {
-    console.log('opencardtimedout');
+    console.log('opencardtimedout ');
   }
 
   openEnterResponseModal(): void {

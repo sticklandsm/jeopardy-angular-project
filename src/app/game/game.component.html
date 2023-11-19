@@ -2,9 +2,5 @@
 
 <app-splash-screen></app-splash-screen>
 <div class="container">
-  <div class="playerScores">
-    <div *ngFor="let playerScore of playerScores">
-    <app-contestant [thisIsYourPlayer]="playerScore.name === currentPlayerName" [namesAndScores]="playerScore"></app-contestant>
-    </div>
-  </div>
+  <app-contestants [currentPlayerName]="currentPlayerName" [playerScores]="playerScores"></app-contestants>
 </div>

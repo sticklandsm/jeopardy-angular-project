@@ -3,7 +3,7 @@
 <div mat-dialog-content class="zindex-tooltip">
   <h1 mat-dialog-title>{{data.title}}</h1>
   <mat-form-field>
-    <input matInput [(ngModel)]="data.content" [placeholder]="data.placeholder">
+    <input matInput [(ngModel)]="data.content" [placeholder]="data.placeholder" (keydown)="onEnterKey($event)">
   </mat-form-field>
 
   <div mat-dialog-actions>

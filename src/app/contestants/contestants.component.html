@@ -1,0 +1,5 @@
+<div class="playerScores">
+  <div *ngFor="let playerScore of playerScores">
+    <app-contestant [thisIsYourPlayer]="playerScore.name === currentPlayerName" [namesAndScores]="playerScore"></app-contestant>
+  </div>
+</div>

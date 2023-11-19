@@ -37,6 +37,7 @@ export class GameComponent implements OnInit {
   gameId = 0;
   currentPlayerName = '';
 
+  // Need to work out how to make the thing redirect to a seperate componenet for entering name, so it refreshes correctly
   constructor(
     private jeopardyService: DatabaseService,
     private route: ActivatedRoute,
@@ -125,6 +126,7 @@ export class GameComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((responseGiven) => {
       localStorage.setItem('name', responseGiven);
+      window.location.href = window.location.href;
     });
   }
 
@@ -137,6 +139,7 @@ export class GameComponent implements OnInit {
       this.currentPlayerName =
         state.name || localStorage.getItem('name') || 'Guy Incognito';
     });
+    console.log('firing');
 
     this.jeopardyService
       .checkPlayerScore(this.gameId, this.currentPlayerName)

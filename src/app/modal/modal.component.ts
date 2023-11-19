@@ -24,12 +24,19 @@ export class ModalComponent {
   onSaveClick(): void {
     // Implement the save logic here, if needed
     // You can also return a result to the component that opened the modal
+
     this.dialogRef.close(this.data.content);
   }
 
   onCancelClick(): void {
     // Implement the cancel logic here, if needed
     this.dialogRef.close('pass');
+  }
+
+  onEnterKey(event: Event): void {
+    if ((event as KeyboardEvent).key === 'Enter') {
+      this.onSaveClick();
+    }
   }
 }
 

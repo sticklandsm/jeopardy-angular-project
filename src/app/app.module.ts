@@ -24,6 +24,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { OpenCardComponent } from './open-card/open-card.component';
+import { ContestantsComponent } from './contestants/contestants.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { OpenCardComponent } from './open-card/open-card.component';
     ContestantComponent,
     ModalComponent,
     OpenCardComponent,
+    ContestantsComponent,
   ],
   imports: [
     BrowserModule,
