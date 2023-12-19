@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://jeopardybackendfromdocker.azurewebsites.net/',
-  wsUrl: 'wss://jeopardybackendfromdocker.azurewebsites.net/',
+  apiUrl: 'https://jeopardy-backend.azurewebsites.net',
+  wsUrl: 'wss://jeopardy-backend.azurewebsites.net',
 };

@@ -37,7 +37,7 @@ export class GameComponent implements OnInit {
   gameId = 0;
   currentPlayerName = '';
 
-  // Need to work out how to make the thing redirect to a seperate componenet for entering name, so it refreshes correctly
+  // Need to work out how to make Contestants update on everyones screen when someone new enters
   constructor(
     private jeopardyService: DatabaseService,
     private route: ActivatedRoute,
