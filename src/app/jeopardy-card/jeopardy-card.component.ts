@@ -35,7 +35,8 @@ export class JeopardyCardComponent implements OnInit {
   constructor(
     private responsePassService: ResponsePassService,
     private dialog: MatDialog,
-    private timerService: TimerService
+    private timerService: TimerService,
+    private databaseService: DatabaseService
   ) {}
 
   openCardClicked(playerName: string) {
@@ -139,6 +140,6 @@ export class JeopardyCardComponent implements OnInit {
 
     //uncomment the below to have it start ticking answers off as answered
 
-    // this.databaseService.clueHasBeenAnswered(this.question.id).subscribe();
+    this.databaseService.clueHasBeenAnswered(this.question.id).subscribe();
   }
 }
